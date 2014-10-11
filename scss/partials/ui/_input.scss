@@ -1,0 +1,58 @@
+
+// INPUTS
+
+.rage-input {
+    position: relative;
+    input[type="text"].custom-input {
+        border: 1px solid #dfdfdf;
+        background-color: #fff;
+        margin: .7em 0;
+        margin-bottom: 2em;
+        position: relative;
+        z-index: 1;
+        padding: 15px;
+        letter-spacing: .05em;
+        outline: 0;
+        box-shadow: none!important;
+        width: 100%;
+        border-radius: 2px;
+        letter-spacing: .02em;
+        &:focus {
+            border-color: $color-bg-normal;
+        }
+        &.success {
+            background-color: lighten($color-bg-active, 50);
+            border-color: $color-bg-active;
+            color: $color-bg-active;
+        }
+        &.error {
+            background-color: lighten($color-bg-error, 40);
+            border-color: $color-bg-error;
+            color: $color-bg-error;
+        }
+        &.disabled {
+            background-color: lighten($color-bg-disabled, 5);
+            border-color: $color-bg-disabled;
+            color: darken($color-bg-disabled, 10);
+        }
+    }
+    .placeholder {
+        position: absolute;
+        top: 22px;
+        left: 17px;
+        color: #aaa;
+        z-index: 0;
+        transition: top .2s ease;
+        font-size: 11px;
+    }
+    input:focus + .placeholder {
+        top: 58px;
+    }
+    input::placeholder {
+        color: #aaa;
+        transition: color .1s ease;
+    }
+    input:focus::placeholder {
+        color: transparent;
+    }
+}

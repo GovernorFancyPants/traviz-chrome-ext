@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Traviz - css debugger</title>
+
+    <link rel="stylesheet" href="global.css">
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,700,500,300,200' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+    <div class="page">
+        <header>
+            <div class="logo">
+                <img src="traviz-icon-128x128.png" alt="">
+                <h1>TRAVIZ</h1>
+            </div>
+        </header>
+        <div class="content">
+            <p>You can use operators not equal to ( &#33 ), greater than (&#62;) and less than (&#60;) or none for exact math.</p>
+            <p>Default is z-index !auto</p>
+
+            <label for="user-property">CSS property</label>
+            <div class="rage-input">
+                <input id="user-property" class="custom-input" type="text"placeholder="Eg. z-index" />
+                <span class="placeholder">Eg. z-index</span>
+            </div>
+            <label for="user-value">CSS value</label>
+            <div class="rage-input">
+                <input id="user-value" class="custom-input" type="text" placeholder="Eg. !auto" />
+                <span class="placeholder">Eg. !auto</span>
+            </div>
+            <a href="#" id="go-button" class="rage-button">Show Me</a>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>

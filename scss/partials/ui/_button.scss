@@ -1,0 +1,44 @@
+
+// BUTTONS
+
+.rage-button {
+    text-decoration: none;
+    font-size: 14px;
+    padding: 10px 20px;
+    line-height: 1.6;
+    width: 100%;
+    text-align: center;
+    background-color: $color-bg-normal;
+    border-radius: 5px;
+    color: #fff;
+    display: inline-block;
+    transition: background-color .3s;
+    &:hover {
+        background-color: lighten($color-bg-normal, 5);
+    }
+    &:active {
+        background-color: darken($color-bg-normal, 5);
+    }
+    &.success {
+        background-color: $color-bg-active;
+        &:hover {
+            background-color: lighten($color-bg-active, 5);
+        }
+        &:active {
+            background-color: darken($color-bg-active, 5);
+        }
+    }
+    &.error {
+        background-color: $color-bg-error;
+        &:hover {
+            background-color: lighten($color-bg-error, 5);
+        }
+        &:active {
+            background-color: darken($color-bg-error, 5);
+        }
+    }
+    &.disabled {
+        background-color: $color-bg-disabled;
+        cursor: default;
+    }
+}

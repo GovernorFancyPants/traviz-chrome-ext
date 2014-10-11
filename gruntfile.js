@@ -62,6 +62,10 @@ module.exports = function(grunt) {
             build: {
                 src: 'build/traviz.min.js',
                 dest: 'build/traviz.min.js'
+            },
+            extras: {
+                src: 'js/popup.js',
+                dest: 'build/popup.js'
             }
         },
 
@@ -82,14 +86,7 @@ module.exports = function(grunt) {
                     {
                         expand: true,
                         flatten: true,
-                        src: ['manifest.json'],
-                        dest: 'build/',
-                        filter: 'isFile'
-                    },
-                    {
-                        expand: true,
-                        flatten: true,
-                        src: ['js/background.js'],
+                        src: ['manifest.json', 'popup.html', 'js/background.js'],
                         dest: 'build/',
                         filter: 'isFile'
                     }
@@ -166,7 +163,7 @@ module.exports = function(grunt) {
     // Default Task is basically a rebuild
     grunt.registerTask('default', ['concat', 'uglify', 'compass', 'autoprefixer', 'cssmin', 'imagemin', 'copy', 'compress']);
 
-    grunt.registerTask('debug', ['concat', 'compass', 'autoprefixer']);
+    grunt.registerTask('debug', ['compass', 'autoprefixer']);
 
     grunt.registerTask('dev', ['connect', 'watch']);
 

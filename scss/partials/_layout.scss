@@ -1,0 +1,27 @@
+*, :before, :after {
+    box-sizing: border-box;
+}
+
+.page {
+    padding: 2em;
+    width: 300px;
+}
+
+.logo {
+    text-align: center;
+    img {
+        width: 48px;
+        height: 48px;
+    }
+    h1 {
+        font-family: 'Raleway';
+        margin-top: 0;
+        letter-spacing: .1em;
+        color: #606060;
+        font-weight: 300;
+    }
+}
+
+.label {
+    font-weight: 700;
+}
