@@ -18,7 +18,6 @@
         </header>
         <div class="content">
             <p>You can use operators not equal to ( &#33 ), greater than (&#62;) and less than (&#60;) or none for exact math.</p>
-            <p>Default is z-index !auto</p>
 
             <label for="user-property">CSS property</label>
             <div class="rage-input">
@@ -29,6 +28,16 @@
             <div class="rage-input">
                 <input id="user-value" class="custom-input" type="text" placeholder="Eg. !auto" />
                 <span class="placeholder">Eg. !auto</span>
+            </div>
+            <label>Use computed styles for %, em, rem</label>
+            <label class="rage-switch" for="computed-style" data-on="On" data-off="Off">
+                <input type="checkbox" id="computed-style" class="custom-switch" checked />
+                <span class="switch" data-on="On" data-off="Off"></span>
+            </label>
+            <label for="user-selector">CSS selector</label>
+            <div class="rage-input">
+                <input id="user-selector" class="custom-input" type="text" placeholder="Eg. div.class" />
+                <span class="placeholder">Eg. div.class</span>
             </div>
             <a href="#" id="go-button" class="rage-button">Show Me</a>
         </div>
