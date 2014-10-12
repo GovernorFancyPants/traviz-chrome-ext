@@ -59,22 +59,22 @@ function traviz(opt_property, opt_value) {
             switch (oValue[0]) {
                 case '!':
                     if (objValue != oValue.slice(1) && obj != uiTraviz && !isDescendant(uiTraviz, obj)) {
-                        createLegend(obj, objValue);
+                        createLegend(obj, objValue, oProperty);
                     }
                     break;
                 case '>':
                     if (parseInt(objValue.replace(/[^\d.]/g, "")) > parseInt(oValue.replace(/[^\d.]/g, "")) && obj != uiTraviz && !isDescendant(uiTraviz, obj)) {
-                        createLegend(obj, objValue);
+                        createLegend(obj, objValue, oProperty);
                     }
                     break;
                 case '<':
                     if (parseInt(objValue.replace(/[^\d.]/g, "")) < parseInt(oValue.replace(/[^\d.]/g, "")) && obj != uiTraviz && !isDescendant(uiTraviz, obj)) {
-                        createLegend(obj, objValue);
+                        createLegend(obj, objValue, oProperty);
                     }
                     break;
                 default:
                     if (objValue == oValue && obj != uiTraviz && !isDescendant(uiTraviz, obj)) {
-                        createLegend(obj, objValue);
+                        createLegend(obj, objValue, oProperty);
                 }
             }
 
@@ -98,7 +98,7 @@ function traviz(opt_property, opt_value) {
         return false;
     }
 
-    function createLegend(obj, zIndex) {
+    function createLegend(obj, value, property) {
 
         var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
 
@@ -123,7 +123,7 @@ function traviz(opt_property, opt_value) {
         sClass.textContent = "Class: " + obj.getAttribute("class");
         sClass.style.cssText = pStyles;
         var sZindex = document.createElement("p");
-        sZindex.textContent = "Z-index: " + zIndex;
+        sZindex.textContent = property + ": " + value;
         sZindex.style.cssText = pStyles;
 
         item.appendChild(sTag);
@@ -174,7 +174,7 @@ function traviz(opt_property, opt_value) {
         nodes.forEach(function(obj) {
 
             var children = obj.children;
-            obj.style.backgroundColor = obj.getAttribute('data-old-color') || "transparent";
+            obj.style.backgroundColor = obj.getAttribute('data-old-traviz-color') || "";
 
             if (children.length != 0) {
                 reset(children);
