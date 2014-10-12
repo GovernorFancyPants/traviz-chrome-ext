@@ -3,7 +3,7 @@
 
     "name": "Traviz",
     "description": "Find all elements with a specific style on any website",
-    "version": "0.4",
+    "version": "0.5",
     "author": "Governorfancypants",
 
     "icons": {
@@ -32,6 +32,6 @@
         "scripts": ["background.js"]
     },
 
-    "web_accessible_resources": ["traviz.min.js"]
+    "web_accessible_resources": ["traviz.js"]
 
 }

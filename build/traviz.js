@@ -145,7 +145,6 @@ function traviz(opt_property, opt_value, opt_selector, computedStyle) {
     }
 
     // var color = getStyleRuleValue('color', '.foo'); // searches all sheets for the first .foo rule and returns the set color style.
-
     // var color = getStyleRuleValue('color', '.foo', document.styleSheets[2]);
 
     // function getStyleRuleValue(style, selector, sheet) {
