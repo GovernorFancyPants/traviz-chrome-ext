@@ -49,7 +49,16 @@ module.exports = function(grunt) {
                 src: [
                     'js/traviz.js'
                 ],
-                dest: 'build/traviz.min.js',
+                dest: 'build/traviz.js',
+            },
+            popup: {
+                options: {
+                    sourceMap: true,
+                },
+                src: [
+                    'js/popup.js'
+                ],
+                dest: 'build/popup.js',
             }
         },
 
@@ -60,11 +69,11 @@ module.exports = function(grunt) {
                 //sourceMapIn: 'js/build/production.js',
             },
             build: {
-                src: 'build/traviz.min.js',
-                dest: 'build/traviz.min.js'
+                src: 'build/traviz.js',
+                dest: 'build/traviz.js'
             },
             extras: {
-                src: 'js/popup.js',
+                src: 'build/popup.js',
                 dest: 'build/popup.js'
             }
         },
@@ -126,7 +135,7 @@ module.exports = function(grunt) {
             },
             scripts: {
                 files: ['js/*.js'],
-                tasks: ['concat', 'uglify', 'jshint'],
+                tasks: ['concat', 'jshint'],
                 options: {
                     spawn: false,
                 }
@@ -165,6 +174,6 @@ module.exports = function(grunt) {
 
     grunt.registerTask('debug', ['compass', 'autoprefixer']);
 
-    grunt.registerTask('dev', ['connect', 'watch']);
+    grunt.registerTask('dev', ['watch']);
 
 };
