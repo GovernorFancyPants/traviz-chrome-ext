@@ -86,7 +86,7 @@ module.exports = function(grunt) {
                     {
                         expand: true,
                         flatten: true,
-                        src: ['manifest.json', 'popup.html', 'js/background.js'],
+                        src: ['manifest.json', 'popup.html', 'js/background.js', 'js/jquery-2.1.1.js'],
                         dest: 'build/',
                         filter: 'isFile'
                     }

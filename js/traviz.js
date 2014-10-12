@@ -1,13 +1,14 @@
 //@ sourceUrl=traviz.js
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    traviz(request.property, request.value);
+    traviz(request.property, request.value, request.selector);
 });
 
-function traviz(opt_property, opt_value) {
+function traviz(opt_property, opt_value, opt_selector) {
 
-    var oProperty = opt_property || 'z-index';
-    var oValue = opt_value || '!auto';
+    var oProperty = opt_property;
+    var oValue = opt_value;
+    var oSelector = opt_selector;
 
     if (document.getElementById('traviz-overlay')) {
         remove();
@@ -46,7 +47,12 @@ function traviz(opt_property, opt_value) {
     uiTraviz.appendChild(uiMeta);
     document.body.appendChild(uiTraviz);
 
-    traverse(document.getElementsByTagName('html')[0].children);
+
+    if (opt_selector) {
+        traverse($(opt_selector));
+    } else {
+        traverse(document.getElementsByTagName('html')[0].children);
+    }
 
     function traverse(nodes) {
 
@@ -54,27 +60,43 @@ function traviz(opt_property, opt_value) {
         nodes.forEach(function(obj) {
 
             var children = obj.children;
-            var objValue = document.defaultView.getComputedStyle(obj, null).getPropertyValue(oProperty);
+            if (oValue.match(/\%$/)) {
+                orgDisplay = document.defaultView.getComputedStyle(obj, null).getPropertyValue('display');
+                obj.setAttribute('data-traviz-old-display', orgDisplay);
+                obj.style.display = 'none';
+                var objValue = document.defaultView.getComputedStyle(obj, null).getPropertyValue(oProperty);
+                obj.style.display = obj.getAttribute('data-traviz-old-display') || "";
+            } else {
+                var objValue = document.defaultView.getComputedStyle(obj, null).getPropertyValue(oProperty);
+            }
 
             switch (oValue[0]) {
                 case '!':
                     if (objValue != oValue.slice(1) && obj != uiTraviz && !isDescendant(uiTraviz, obj)) {
-                        createLegend(obj, objValue);
+                        createLegend(obj, objValue, oProperty);
                     }
                     break;
                 case '>':
                     if (parseInt(objValue.replace(/[^\d.]/g, "")) > parseInt(oValue.replace(/[^\d.]/g, "")) && obj != uiTraviz && !isDescendant(uiTraviz, obj)) {
-                        createLegend(obj, objValue);
+                        createLegend(obj, objValue, oProperty);
                     }
                     break;
                 case '<':
                     if (parseInt(objValue.replace(/[^\d.]/g, "")) < parseInt(oValue.replace(/[^\d.]/g, "")) && obj != uiTraviz && !isDescendant(uiTraviz, obj)) {
-                        createLegend(obj, objValue);
+                        createLegend(obj, objValue, oProperty);
                     }
                     break;
                 default:
-                    if (objValue == oValue && obj != uiTraviz && !isDescendant(uiTraviz, obj)) {
-                        createLegend(obj, objValue);
+                    if (oSelector) {
+                        if (objValue == oValue && obj != uiTraviz && !isDescendant(uiTraviz, obj)) {
+                            createLegend(obj, objValue, oProperty);
+                        } else if (obj != uiTraviz && !isDescendant(uiTraviz, obj)) {
+                            createLegend(obj, objValue, oProperty);
+                        }
+                    } else {
+                        if (objValue == oValue && obj != uiTraviz && !isDescendant(uiTraviz, obj)) {
+                            createLegend(obj, objValue, oProperty);
+                        }
                 }
             }
 
@@ -98,7 +120,7 @@ function traviz(opt_property, opt_value) {
         return false;
     }
 
-    function createLegend(obj, zIndex) {
+    function createLegend(obj, value, property) {
 
         var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
 
@@ -123,7 +145,7 @@ function traviz(opt_property, opt_value) {
         sClass.textContent = "Class: " + obj.getAttribute("class");
         sClass.style.cssText = pStyles;
         var sZindex = document.createElement("p");
-        sZindex.textContent = "Z-index: " + zIndex;
+        sZindex.textContent = property + ": " + value;
         sZindex.style.cssText = pStyles;
 
         item.appendChild(sTag);
@@ -174,7 +196,7 @@ function traviz(opt_property, opt_value) {
         nodes.forEach(function(obj) {
 
             var children = obj.children;
-            obj.style.backgroundColor = obj.getAttribute('data-old-color') || "transparent";
+            obj.style.backgroundColor = obj.getAttribute('data-traviz-old-color') || "";
 
             if (children.length != 0) {
                 reset(children);
