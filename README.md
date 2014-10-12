@@ -24,7 +24,7 @@ You can fold the menu and still see the colors but have a greater view of the pa
 
 ## Future
 
-### Currently in development
+##### Currently in development
 
  * Selector search/filter
  * Switch between computed and cascaded styles
