@@ -53,6 +53,9 @@ function traviz(opt_property, opt_value, opt_selector, computedStyle) {
     // Traverse all elements on page
 
     if (opt_selector) {
+
+        // TODO: Since traverse() is recursive it will print out all children of the matching elements. Need to change this behaviour to only print elements with matching selector
+
         traverse($(opt_selector)); // If selector is set, only traverse matching elements
     } else {
         traverse(document.getElementsByTagName('html')[0].children);
@@ -69,15 +72,20 @@ function traviz(opt_property, opt_value, opt_selector, computedStyle) {
 
             var objValue;
 
-            if (!oComputedStyle && (oValue.match(/\%$/) || oValue.match(/(em)/))) { // Check if value ends with % or em and get cascaded value
-
+            if (!oComputedStyle) { // Get cascaded values
+                if (oValue.match(/\%$/)) {
+                    orgDisplay = document.defaultView.getComputedStyle(obj, null).getPropertyValue('display');
+                    obj.setAttribute('data-traviz-old-display', orgDisplay);
+                    obj.style.display = 'none';
+                    objValue = document.defaultView.getComputedStyle(obj, null).getPropertyValue(oProperty);
+                    obj.style.display = obj.getAttribute('data-traviz-old-display') || "";
+                } else if (oValue.match(/(em)/)) {
+                    return;
                 // TODO: Figure our how to get cascaded styles for em, rem etc
-
-                orgDisplay = document.defaultView.getComputedStyle(obj, null).getPropertyValue('display');
-                obj.setAttribute('data-traviz-old-display', orgDisplay);
-                obj.style.display = 'none';
-                objValue = document.defaultView.getComputedStyle(obj, null).getPropertyValue(oProperty);
-                obj.style.display = obj.getAttribute('data-traviz-old-display') || "";
+                } else {
+                    return;
+                    // TODO: Figure our how to get cascaded styles for px
+                }
             } else { // Else get computed value
                 objValue = document.defaultView.getComputedStyle(obj, null).getPropertyValue(oProperty);
             }
@@ -116,7 +124,7 @@ function traviz(opt_property, opt_value, opt_selector, computedStyle) {
                     }
                 }
             }
-            if (children.length !== 0) {
+            if (children.length !== 0 && !oSelector) { // Loop if item has children and selector is not set
                 traverse(children);
             } else {
 
@@ -127,6 +135,9 @@ function traviz(opt_property, opt_value, opt_selector, computedStyle) {
                     uiResultMeta.textContent = "You must specify a property, value and/or selector";
                 } else {
                     uiResultMeta.textContent = "Found " + String(count) + " elements with " + oProperty + " " + oValue;
+                    if (oSelector) {
+                        uiResultMeta.textContent += " and a selector of " + oSelector;
+                    }
                 }
             }
         });
