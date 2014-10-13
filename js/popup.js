@@ -22,6 +22,8 @@
 //     localStorage.setItem('status_data', dataToStore);
 // });
 
+// Load script file and jQuery
+
 document.addEventListener('DOMContentLoaded', function() {
     chrome.tabs.executeScript(null, {
         file: "jquery-2.1.1.js"
@@ -32,6 +34,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 });
 
+// Get settings from localstorage on load
+
 window.onload = function() {
     var localData = JSON.parse(localStorage.getItem('status_data'));
 
@@ -40,17 +44,21 @@ window.onload = function() {
         document.getElementById('user-value').value = localData.value;
         document.getElementById('user-selector').value = localData.selector;
         document.getElementById('computed-style').checked = localData.computed_style;
+        document.getElementById('random-colors').checked = localData.random_colors;
     }
 };
 
+// Save settings to localstorage on unload
+
 // TODO: unload is not fired when clicking outside of popup or on icon. Need to implement port channel commented out above
 
-addEventListener("unload", function(event) {
+addEventListener('unload', function(event) {
     input_status = {
         property: document.getElementById('user-property').value,
         value: document.getElementById('user-value').value,
         selector: document.getElementById('user-selector').value,
-        computed_style: document.getElementById('computed-style').checked
+        computed_style: document.getElementById('computed-style').checked,
+        random_colors: document.getElementById('random-colors').checked
     };
 
     var dataToStore = JSON.stringify(input_status);
@@ -58,7 +66,7 @@ addEventListener("unload", function(event) {
 }, true);
 
 var button = document.getElementById('go-button');
-button.addEventListener("click", trigger, false);
+button.addEventListener('click', trigger, false);
 
 var valueInput = document.getElementById('user-value');
 valueInput.addEventListener("keyup", function(e) {
@@ -89,6 +97,7 @@ function trigger() {
     var sValue = document.getElementById('user-value').value;
     var sSelector = document.getElementById('user-selector').value;
     var sComputedStyle = document.getElementById('computed-style').checked;
+    var sRandomColors = document.getElementById('random-colors').checked;
 
     chrome.tabs.query({
         active: true,
@@ -98,7 +107,8 @@ function trigger() {
                 property: sProperty,
                 value: sValue,
                 selector: sSelector,
-                computedStyle: sComputedStyle
+                computedStyle: sComputedStyle,
+                random_colors: sRandomColors
             });
         });
     window.close();

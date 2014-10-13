@@ -7,10 +7,10 @@
         border: 1px solid #dfdfdf;
         background-color: #fff;
         margin: .7em 0;
-        margin-bottom: 2em;
+        margin-bottom: 1.5em;
         position: relative;
         z-index: 1;
-        padding: 15px;
+        padding: 10px;
         letter-spacing: .05em;
         outline: 0;
         box-shadow: none!important;
@@ -46,7 +46,7 @@
         font-size: 11px;
     }
     input:focus + .placeholder {
-        top: 58px;
+        top: 45px;
     }
     input::placeholder {
         color: #aaa;

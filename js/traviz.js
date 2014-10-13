@@ -1,15 +1,16 @@
 //@ sourceUrl=traviz.js
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    traviz(request.property, request.value, request.selector, request.computedStyle);
+    traviz(request.property, request.value, request.selector, request.computedStyle, request.random_colors);
 });
 
-function traviz(opt_property, opt_value, opt_selector, computedStyle) {
+function traviz(opt_property, opt_value, opt_selector, computedStyle, opt_randomColors) {
 
     var oProperty = opt_property;
     var oValue = opt_value;
     var oSelector = opt_selector;
     var oComputedStyle = computedStyle;
+    var oRandomColors = opt_randomColors;
 
     if (document.getElementById('traviz-overlay')) {
 
@@ -72,7 +73,7 @@ function traviz(opt_property, opt_value, opt_selector, computedStyle) {
 
             var objValue;
 
-            if (!oComputedStyle) { // Get cascaded values
+            if (!oComputedStyle) { // Get specified values
                 if (oValue.match(/\%$/)) {
                     orgDisplay = document.defaultView.getComputedStyle(obj, null).getPropertyValue('display');
                     obj.setAttribute('data-traviz-old-display', orgDisplay);
@@ -80,19 +81,22 @@ function traviz(opt_property, opt_value, opt_selector, computedStyle) {
                     objValue = document.defaultView.getComputedStyle(obj, null).getPropertyValue(oProperty);
                     obj.style.display = obj.getAttribute('data-traviz-old-display') || "";
                 } else if (oValue.match(/(em)/)) {
-                    return;
-                // TODO: Figure our how to get cascaded styles for em, rem etc
+                    objValue = getMatchedStyle(obj, oProperty);
+                    if (objValue == oValue) {
+                        createLegend(obj, objValue, oProperty);
+                    }
+                // TODO: Figure our how to get specified styles for em, rem etc
                 } else {
                     return;
-                    // TODO: Figure our how to get cascaded styles for px
+                    // TODO: Figure our how to get specified styles for px
                 }
-            } else { // Else get computed value
+            } else { // Else get computed values
                 objValue = document.defaultView.getComputedStyle(obj, null).getPropertyValue(oProperty);
             }
 
             // Switch on operator
 
-            if (obj != uiTraviz && !isDescendant(uiTraviz, obj)) {
+            if (obj != uiTraviz && !isDescendant(uiTraviz, obj) && oProperty && oValue) {
                 switch (oValue[0]) {
                     case '!':
                         if (objValue != oValue.slice(1)) {
@@ -123,6 +127,10 @@ function traviz(opt_property, opt_value, opt_selector, computedStyle) {
                             createLegend(obj, objValue, oProperty);
                     }
                 }
+            } else if (obj != uiTraviz && !isDescendant(uiTraviz, obj) && oProperty && !oValue) {
+                createLegend(obj, objValue, oProperty);
+            } else if (obj != uiTraviz && !isDescendant(uiTraviz, obj) && !oProperty && !oValue) {
+                createLegend(obj, objValue, oProperty);
             }
             if (children.length !== 0 && !oSelector) { // Loop if item has children and selector is not set
                 traverse(children);
@@ -133,6 +141,8 @@ function traviz(opt_property, opt_value, opt_selector, computedStyle) {
                 count = uiTraviz.getElementsByClassName('item').length;
                 if (!oValue && !oProperty && !oSelector) {
                     uiResultMeta.textContent = "You must specify a property, value and/or selector";
+                } else if (!oProperty && !oSelector) {
+                    uiResultMeta.textContent = "Found " + String(count) + " elements with a selector of " + oSelector;
                 } else {
                     uiResultMeta.textContent = "Found " + String(count) + " elements with " + oProperty + " " + oValue;
                     if (oSelector) {
@@ -192,42 +202,48 @@ function traviz(opt_property, opt_value, opt_selector, computedStyle) {
     // Should give cascaded styles (Eg 1em, 2rem, 50%)
     // Doesn't seem to be working
 
-    // function getMatchedStyle(elem, property) {
-    //     // element property has highest priority
-    //     var val = elem.style.getPropertyValue(property);
+    function getMatchedStyle(elem, property) {
+        // element property has highest priority
+        var val = elem.style.getPropertyValue(property);
 
-    //     // if it's important, we are done
-    //     if (elem.style.getPropertyPriority(property))
-    //         return val;
+        // if it's important, we are done
+        if (elem.style.getPropertyPriority(property))
+            return val;
 
-    //     // get matched rules
-    //     var rules = getMatchedCSSRules(elem);
+        // get matched rules
+        var rules = window.getMatchedCSSRules(elem, '');
 
-    //     // iterate the rules backwards
-    //     // rules are ordered by priority, highest last
-    //     if (rules) {
-    //         for (var i = rules.length; i-- > 0; ) {
-    //             var r = rules[i];
+        // iterate the rules backwards
+        // rules are ordered by priority, highest last
+        if (rules) {
+            for (var i = rules.length; i-- > 0; ) {
+                var r = rules[i];
 
-    //             var important = r.style.getPropertyPriority(property);
+                var important = r.style.getPropertyPriority(property);
 
-    //             // if set, only reset if important
-    //             if (val == null || important) {
-    //                 val = r.style.getPropertyValue(property);
+                // if set, only reset if important
+                if (val === null || important) {
+                    val = r.style.getPropertyValue(property);
 
-    //                 // done if important
-    //                 if (important)
-    //                     break;
-    //             }
-    //         }
-    //     }
+                    // done if important
+                    if (important)
+                        break;
+                }
+            }
+        }
 
-    //     return val;
-    // }
+        return val;
+    }
 
     function createLegend(obj, value, property) {
 
-        var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+        var color;
+
+        if (oRandomColors) {
+            color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+        } else {
+            color = 'hotpink';
+        }
 
         setOrgColor(document.getElementsByTagName('html')[0].children); // Save initial bg-color
 
@@ -256,7 +272,7 @@ function traviz(opt_property, opt_value, opt_selector, computedStyle) {
         item.appendChild(sTag);
         item.appendChild(sId);
         item.appendChild(sClass);
-        if (!value && !property) {
+        if (property) {
             item.appendChild(sPropVal);
         }
 
@@ -338,3 +354,6 @@ function traviz(opt_property, opt_value, opt_selector, computedStyle) {
         });
     }
 }
+
+
+

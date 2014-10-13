@@ -129,6 +129,7 @@ module.exports = function(grunt) {
             },
             html: {
                 files: ['popup.html'],
+                tasks: ['copy'],
                 options: {
                     spawn: false,
                 }
