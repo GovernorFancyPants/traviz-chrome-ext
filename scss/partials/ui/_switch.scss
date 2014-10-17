@@ -1,0 +1,93 @@
+
+// SWITCHES
+
+input[type=checkbox].custom-switch {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    margin: 0;
+    outline: none !important;
+    opacity: 0;
+}
+
+.rage-switch {
+    position: relative;
+    height: 30px;
+    width: 70px;
+    //border: 1px solid #dfdfdf;
+    border-radius: 2px;
+    overflow: hidden;
+    cursor: pointer;
+    margin: .5em 0;
+    margin-bottom: 1em;
+    display: block;
+    //transition: border-color .2s ease;
+    .custom-switch:checked + .switch {
+        border-color: $color-bg-normal;
+        left: 40px;
+        background-color: $color-bg-normal;
+        border-radius: 0 2px 2px 0;
+    }
+    .custom-switch:disabled + .switch {
+        //border-color: darken($color-bg-disabled, 10);
+        cursor: default;
+        background-color: darken($color-bg-disabled, 10);
+        &:before {
+            background-color: $color-bg-disabled;
+        }
+        &:after {
+            background-color: $color-bg-disabled;
+            color: #fff;
+        }
+    }
+    .switch {
+        position: absolute;
+        left: 0;
+        width: 30px;
+        height: 100%;
+        background-color: darken($color-bg-disabled, 10);
+        transition: left .2s ease, background-color .2s ease, border-radius .2s ease;
+        color: #fff;
+        display: block;
+        border-radius: 2px 0 0 2px;
+        &:before {
+            content: attr(data-on);
+            position: absolute;
+            margin-left: -40px;
+            top: 0;
+            left: 0;
+            width: 40px;
+            line-height: 30px;
+            //border: 1px solid #fff;
+            text-align: center;
+            background-color: lighten($color-bg-normal, 10);
+        }
+        &:after {
+            content: attr(data-off);
+            position: absolute;
+            background-color: $color-bg-disabled;
+            color: #555;
+            top: 0;
+            right: -40px;
+            width: 40px;
+            line-height: 30px;
+            //border: 1px solid #fff;
+            text-align: center;
+        }
+        &.icons {
+            &:before {
+                content: "\F11f";
+                font-family: qnet-icons;
+                font-size: 16px;
+            }
+            &:after {
+                content: "\F118";
+                font-family: qnet-icons;
+                font-size: 16px;
+            }
+        }
+    }
+}

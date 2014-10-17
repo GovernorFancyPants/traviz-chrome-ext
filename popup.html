@@ -16,21 +16,41 @@
                 <h1>TRAVIZ</h1>
             </div>
         </header>
-        <div class="content">
-            <p>You can use operators not equal to ( &#33 ), greater than (&#62;) and less than (&#60;) or none for exact math.</p>
-            <p>Default is z-index !auto</p>
+        <div id="content" class="content">
+            <p>You can use operators not equal to ( &#33; ), greater than (&#62;), less than (&#60;) and nearly equal to (&#126;) or none for exact math.</p>
 
-            <label for="user-property">CSS property</label>
-            <div class="rage-input">
-                <input id="user-property" class="custom-input" type="text"placeholder="Eg. z-index" />
-                <span class="placeholder">Eg. z-index</span>
+            <label for="user-property">CSS property and/or value</label>
+            <div id="user-value-wrapper" class="rage-input">
+                <input id="user-property" class="custom-input" type="text" placeholder="Eg. z-index: !auto" />
+                <span class="placeholder">Eg. z-index: !auto</span>
             </div>
-            <label for="user-value">CSS value</label>
+            <div class="rage-input input-value-extend">
+                <input id="user-value-tilde" class="custom-input" type="text" placeholder="Tolerance Eg. 25" />
+                <span class="placeholder">Tolerance Eg. 25</span>
+            </div>
+            <label class="tooltip" data-label-text="Getting specified values doesn't work on cross-origin linked stylesheets nor local sites" for="computed-style">Use specified values</label>
+            <label class="rage-switch" data-on="On" data-off="Off">
+                <input type="checkbox" id="computed-style" class="custom-switch" />
+                <span class="switch" data-on="On" data-off="Off"></span>
+            </label>
+            <label>Use random colors</label>
+            <label class="rage-switch" for="random-colors" data-on="On" data-off="Off">
+                <input type="checkbox" id="random-colors" class="custom-switch" checked />
+                <span class="switch" data-on="On" data-off="Off"></span>
+            </label>
+            <label for="user-selector">CSS selector</label>
             <div class="rage-input">
-                <input id="user-value" class="custom-input" type="text" placeholder="Eg. !auto" />
-                <span class="placeholder">Eg. !auto</span>
+                <input id="user-selector" class="custom-input" type="text" placeholder="Eg. div.class" />
+                <span class="placeholder">Eg. div.class</span>
             </div>
             <a href="#" id="go-button" class="rage-button">Show Me</a>
+        </div>
+        <div id="loading" class="loading hidden">
+            <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
         </div>
     </div>
 

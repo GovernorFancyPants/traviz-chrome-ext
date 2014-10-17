@@ -7,10 +7,10 @@
         border: 1px solid #dfdfdf;
         background-color: #fff;
         margin: .7em 0;
-        margin-bottom: 2em;
+        margin-bottom: 1.5em;
         position: relative;
         z-index: 1;
-        padding: 15px;
+        padding: 10px;
         letter-spacing: .05em;
         outline: 0;
         box-shadow: none!important;
@@ -39,14 +39,14 @@
     .placeholder {
         position: absolute;
         top: 22px;
-        left: 17px;
+        left: 5px;
         color: #aaa;
         z-index: 0;
         transition: top .2s ease;
         font-size: 11px;
     }
     input:focus + .placeholder {
-        top: 58px;
+        top: 45px;
     }
     input::placeholder {
         color: #aaa;
