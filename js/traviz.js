@@ -1,16 +1,25 @@
 //@ sourceUrl=traviz.js
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    traviz(request.property, request.value, request.selector, request.computedStyle, request.random_colors);
+    traviz(request.property, request.selector, request.computed_style, request.random_colors, request.value_extend);
+    sendResponse({
+        status: 'done'
+    });
 });
 
-function traviz(opt_property, opt_value, opt_selector, computedStyle, opt_randomColors) {
+function traviz(opt_property, opt_selector, computedStyle, opt_randomColors, opt_value_extend) {
 
-    var oProperty = opt_property;
-    var oValue = opt_value;
+    var splitProperty = opt_property.split(":", 2);
+
+    var oProperty = splitProperty[0];
+    if (splitProperty[1]) {
+        var oValue = splitProperty[1].trim();
+    }
+    var oValueExtend = opt_value_extend || 1;
     var oSelector = opt_selector;
     var oComputedStyle = computedStyle;
     var oRandomColors = opt_randomColors;
+    var total_elements = 0;
 
     if (document.getElementById('traviz-overlay')) {
 
@@ -40,56 +49,56 @@ function traviz(opt_property, opt_value, opt_selector, computedStyle, opt_random
     var uiLogo = document.createElement("span");
     uiLogo.style.cssText = 'position: absolute; left: 1em; top: 10px; display: inline-block; width: 32px; height: 32px; background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE3LjEuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMSBUaW55Ly9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLXRpbnkuZHRkIj4KPHN2ZyB2ZXJzaW9uPSIxLjEiIGJhc2VQcm9maWxlPSJ0aW55IiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIKCSB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDEyOCAxMjgiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8cGF0aCBmaWxsPSIjNDU0NTQ1IiBkPSJNMTA4LjMsMTkuN2MtMTUuNi0xNS42LTQwLjktMTUuNi01Ni42LDBjLTE1LjYsMTUuNi0xNS42LDQwLjksMCw1Ni42czQwLjksMTUuNiw1Ni42LDAKCUMxMjMuOSw2MC43LDEyMy45LDM1LjMsMTA4LjMsMTkuN3ogTTU3LjQsNzAuNmMtMTIuNS0xMi41LTEyLjUtMzIuOCwwLTQ1LjNjMTIuNS0xMi41LDMyLjgtMTIuNSw0NS4zLDBzMTIuNSwzMi44LDAsNDUuMwoJQzkwLjEsODMuMSw2OS45LDgzLjEsNTcuNCw3MC42eiIvPgo8cGF0aCBmaWxsPSIjNDU0NTQ1IiBkPSJNMTcuOCwxMjEuNUw2LjUsMTEwLjJsMzAuMy0zMC4zYzAuNS0wLjUsMS4yLTEsMi0xLjJsNi4yLTIuMWMwLjctMC4yLDEuNC0wLjcsMi0xLjJsNC44LTQuOGw1LjcsNS43CglsLTQuOCw0LjhjLTAuNSwwLjUtMSwxLjItMS4yLDJsLTIuMSw2LjJjLTAuMiwwLjctMC43LDEuNC0xLjIsMkwxNy44LDEyMS41eiIvPgo8cGF0aCBmaWxsPSIjNDU0NTQ1IiBkPSJNODAsMjBjLTE1LjUsMC0yOCwxMi41LTI4LDI4YzAsMTUuNSwxMi41LDI4LDI4LDI4czI4LTEyLjUsMjgtMjhDMTA4LDMyLjUsOTUuNSwyMCw4MCwyMHogTTgwLDcyCgljLTEzLjMsMC0yNC0xMC43LTI0LTI0czEwLjctMjQsMjQtMjRzMjQsMTAuNywyNCwyNFM5My4zLDcyLDgwLDcyeiIvPgo8cGF0aCBmaWxsPSIjNDU0NTQ1IiBkPSJNODAsMjhjLTExLDAtMjAsOS0yMCwyMGMwLDExLDksMjAsMjAsMjBzMjAtOSwyMC0yMEMxMDAsMzcsOTEsMjgsODAsMjh6IE04MCw2MGMtNi42LDAtMTItNS40LTEyLTEyCgljMC02LjYsNS40LTEyLDEyLTEyczEyLDUuNCwxMiwxMkM5Miw1NC42LDg2LjYsNjAsODAsNjB6Ii8+CjxjaXJjbGUgZmlsbD0iIzQ1NDU0NSIgY3g9IjgwIiBjeT0iNDgiIHI9IjgiLz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+);';
 
+    // var uiResize = document.createElement("a");
+    // uiResize.setAttribute('id', 'activate-resize');
+    // uiResize.textContent = 'Resize';
+    // uiResize.style.cssText = 'position: relative; color: rgb(65, 131, 196); text-decoration: none; margin-left: 1em;'
+    // uiResize.setAttribute('href', '#');
+
     uiTraviz.addEventListener("click", hideShow, false);
     uiHeader.addEventListener("click", hideShow, false);
     uiRemove.addEventListener("click", remove, false);
+    // uiResize.addEventListener('click', doResize, false);
 
     uiHeader.appendChild(uiLogo);
     uiHeader.appendChild(uiRemove);
     uiHeader.appendChild(uiArrow);
     uiTraviz.appendChild(uiHeader);
     uiTraviz.appendChild(uiResultMeta);
+    // uiTraviz.appendChild(uiResize);
     document.body.appendChild(uiTraviz);
 
     // Traverse all elements on page
 
     if (opt_selector) {
-
-        // TODO: Since traverse() is recursive it will print out all children of the matching elements. Need to change this behaviour to only print elements with matching selector
-
         traverse($(opt_selector)); // If selector is set, only traverse matching elements
     } else {
         traverse(document.getElementsByTagName('html')[0].children);
     }
 
     function traverse(nodes) {
-
+        if (!nodes.length) {
+            uiResultMeta.textContent = "No matching element with a selector of " + oSelector;
+            return;
+        }
         nodes = Array.prototype.slice.call(nodes);
         nodes.forEach(function(obj) {
 
+            total_elements++;
             var children = obj.children;
 
             // Get element value
 
             var objValue;
 
-            if (!oComputedStyle) { // Get specified values
-                if (oValue.match(/\%$/)) {
-                    orgDisplay = document.defaultView.getComputedStyle(obj, null).getPropertyValue('display');
-                    obj.setAttribute('data-traviz-old-display', orgDisplay);
-                    obj.style.display = 'none';
-                    objValue = document.defaultView.getComputedStyle(obj, null).getPropertyValue(oProperty);
-                    obj.style.display = obj.getAttribute('data-traviz-old-display') || "";
-                } else if (oValue.match(/(em)/)) {
-                    objValue = getMatchedStyle(obj, oProperty);
-                    if (objValue == oValue) {
-                        createLegend(obj, objValue, oProperty);
-                    }
-                // TODO: Figure our how to get specified styles for em, rem etc
-                } else {
-                    return;
-                    // TODO: Figure our how to get specified styles for px
-                }
+            obj.classList.add('resize');
+
+            if (oComputedStyle) { // Get specified values
+
+                // Doesn't work on cross-origin linked stylesheets or local sites
+
+                objValue = getMatchedStyle(obj, oProperty);
+                console.log(objValue);
             } else { // Else get computed values
                 objValue = document.defaultView.getComputedStyle(obj, null).getPropertyValue(oProperty);
             }
@@ -99,7 +108,7 @@ function traviz(opt_property, opt_value, opt_selector, computedStyle, opt_random
             if (obj != uiTraviz && !isDescendant(uiTraviz, obj) && oProperty && oValue) {
                 switch (oValue[0]) {
                     case '!':
-                        if (objValue != oValue.slice(1)) {
+                        if (objValue != oValue.slice(1) && objValue !== null) {
                             createLegend(obj, objValue, oProperty);
                         }
                         break;
@@ -113,6 +122,13 @@ function traviz(opt_property, opt_value, opt_selector, computedStyle, opt_random
                         break;
                     case '<':
                         if (parseInt(objValue.replace(/[^\d.]/g, "")) < parseInt(oValue.replace(/[^\d.]/g, ""))) {
+                            createLegend(obj, objValue, oProperty);
+                        }
+                        break;
+                    case '~':
+                        var diff = Math.abs(parseInt(objValue.replace(/[^\d.]/g, "")) - parseInt(oValue.replace(/[^\d.]/g, "")));
+
+                        if (diff < oValueExtend) {
                             createLegend(obj, objValue, oProperty);
                         }
                         break;
@@ -142,9 +158,9 @@ function traviz(opt_property, opt_value, opt_selector, computedStyle, opt_random
                 if (!oValue && !oProperty && !oSelector) {
                     uiResultMeta.textContent = "You must specify a property, value and/or selector";
                 } else if (!oProperty && !oSelector) {
-                    uiResultMeta.textContent = "Found " + String(count) + " elements with a selector of " + oSelector;
+                    uiResultMeta.textContent = "Found " + String(count) + " elements " + " (of totally " + String(total_elements) + ") " + "with a selector of " + oSelector;
                 } else {
-                    uiResultMeta.textContent = "Found " + String(count) + " elements with " + oProperty + " " + oValue;
+                    uiResultMeta.textContent = "Found " + String(count) + " elements " + " (of totally " + String(total_elements) + ") " + " with " + oProperty + " " + oValue;
                     if (oSelector) {
                         uiResultMeta.textContent += " and a selector of " + oSelector;
                     }
@@ -198,9 +214,6 @@ function traviz(opt_property, opt_value, opt_selector, computedStyle, opt_random
     //         }
     //     }
     // }
-
-    // Should give cascaded styles (Eg 1em, 2rem, 50%)
-    // Doesn't seem to be working
 
     function getMatchedStyle(elem, property) {
         // element property has highest priority
@@ -307,7 +320,10 @@ function traviz(opt_property, opt_value, opt_selector, computedStyle, opt_random
         }
     }
 
-    function remove() {
+    function remove(e) {
+        if (e) {
+            e.preventDefault();
+        }
         reset(document.getElementsByTagName('html')[0].children); // Reset bg-color
 
         // Don't know what this does
@@ -353,7 +369,24 @@ function traviz(opt_property, opt_value, opt_selector, computedStyle, opt_random
             }
         });
     }
+
+    // function doResize(e) {
+    //     if (e) {
+    //         e.preventDefault();
+    //     }
+
+    //     interact('.resize')
+    //         .resizable(true)
+    //         .on('resizemove', function(event) {
+    //             var target = event.target;
+
+    //             // add the change in coords to the previous width of the target element
+    //             var newWidth = parseFloat(objValue = document.defaultView.getComputedStyle(target, null).getPropertyValue('width')) + event.dx,
+    //                 newHeight = parseFloat(objValue = document.defaultView.getComputedStyle(target, null).getPropertyValue('height')) + event.dy;
+
+    //             // update the element's style
+    //             target.style.width = newWidth + 'px';
+    //             target.style.height = newHeight + 'px';
+    //         });
+    // }
 }
-
-
-

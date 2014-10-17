@@ -69,7 +69,7 @@ module.exports = function(grunt) {
                 //sourceMapIn: 'js/build/production.js',
             },
             build: {
-                src: 'build/traviz.js',
+                src: ['build/traviz.js'],
                 dest: 'build/traviz.js'
             },
             extras: {
