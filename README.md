@@ -18,6 +18,8 @@ Click an item in the list to scroll the corresponding element into view.
 
 You can fold the menu and still see the colors but have a greater view of the page.
 
+![traviz_demo](https://cloud.githubusercontent.com/assets/1523841/4686419/9bb255da-5645-11e4-919f-67e30fc77027.gif)
+
 ## Bugs
 
  * Searching for specified values will not work on cross-origin linked stylesheets or local sites.
