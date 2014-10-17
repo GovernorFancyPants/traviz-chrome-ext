@@ -49,23 +49,23 @@ function traviz(opt_property, opt_selector, computedStyle, opt_randomColors, opt
     var uiLogo = document.createElement("span");
     uiLogo.style.cssText = 'position: absolute; left: 1em; top: 10px; display: inline-block; width: 32px; height: 32px; background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE3LjEuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMSBUaW55Ly9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLXRpbnkuZHRkIj4KPHN2ZyB2ZXJzaW9uPSIxLjEiIGJhc2VQcm9maWxlPSJ0aW55IiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIKCSB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDEyOCAxMjgiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8cGF0aCBmaWxsPSIjNDU0NTQ1IiBkPSJNMTA4LjMsMTkuN2MtMTUuNi0xNS42LTQwLjktMTUuNi01Ni42LDBjLTE1LjYsMTUuNi0xNS42LDQwLjksMCw1Ni42czQwLjksMTUuNiw1Ni42LDAKCUMxMjMuOSw2MC43LDEyMy45LDM1LjMsMTA4LjMsMTkuN3ogTTU3LjQsNzAuNmMtMTIuNS0xMi41LTEyLjUtMzIuOCwwLTQ1LjNjMTIuNS0xMi41LDMyLjgtMTIuNSw0NS4zLDBzMTIuNSwzMi44LDAsNDUuMwoJQzkwLjEsODMuMSw2OS45LDgzLjEsNTcuNCw3MC42eiIvPgo8cGF0aCBmaWxsPSIjNDU0NTQ1IiBkPSJNMTcuOCwxMjEuNUw2LjUsMTEwLjJsMzAuMy0zMC4zYzAuNS0wLjUsMS4yLTEsMi0xLjJsNi4yLTIuMWMwLjctMC4yLDEuNC0wLjcsMi0xLjJsNC44LTQuOGw1LjcsNS43CglsLTQuOCw0LjhjLTAuNSwwLjUtMSwxLjItMS4yLDJsLTIuMSw2LjJjLTAuMiwwLjctMC43LDEuNC0xLjIsMkwxNy44LDEyMS41eiIvPgo8cGF0aCBmaWxsPSIjNDU0NTQ1IiBkPSJNODAsMjBjLTE1LjUsMC0yOCwxMi41LTI4LDI4YzAsMTUuNSwxMi41LDI4LDI4LDI4czI4LTEyLjUsMjgtMjhDMTA4LDMyLjUsOTUuNSwyMCw4MCwyMHogTTgwLDcyCgljLTEzLjMsMC0yNC0xMC43LTI0LTI0czEwLjctMjQsMjQtMjRzMjQsMTAuNywyNCwyNFM5My4zLDcyLDgwLDcyeiIvPgo8cGF0aCBmaWxsPSIjNDU0NTQ1IiBkPSJNODAsMjhjLTExLDAtMjAsOS0yMCwyMGMwLDExLDksMjAsMjAsMjBzMjAtOSwyMC0yMEMxMDAsMzcsOTEsMjgsODAsMjh6IE04MCw2MGMtNi42LDAtMTItNS40LTEyLTEyCgljMC02LjYsNS40LTEyLDEyLTEyczEyLDUuNCwxMiwxMkM5Miw1NC42LDg2LjYsNjAsODAsNjB6Ii8+CjxjaXJjbGUgZmlsbD0iIzQ1NDU0NSIgY3g9IjgwIiBjeT0iNDgiIHI9IjgiLz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+);';
 
-    var uiResize = document.createElement("a");
-    uiResize.setAttribute('id', 'activate-resize');
-    uiResize.textContent = 'Resize';
-    uiResize.style.cssText = 'position: relative; color: rgb(65, 131, 196); text-decoration: none; margin-left: 1em;'
-    uiResize.setAttribute('href', '#');
+    // var uiResize = document.createElement("a");
+    // uiResize.setAttribute('id', 'activate-resize');
+    // uiResize.textContent = 'Resize';
+    // uiResize.style.cssText = 'position: relative; color: rgb(65, 131, 196); text-decoration: none; margin-left: 1em;'
+    // uiResize.setAttribute('href', '#');
 
     uiTraviz.addEventListener("click", hideShow, false);
     uiHeader.addEventListener("click", hideShow, false);
     uiRemove.addEventListener("click", remove, false);
-    uiResize.addEventListener('click', doResize, false);
+    // uiResize.addEventListener('click', doResize, false);
 
     uiHeader.appendChild(uiLogo);
     uiHeader.appendChild(uiRemove);
     uiHeader.appendChild(uiArrow);
     uiTraviz.appendChild(uiHeader);
     uiTraviz.appendChild(uiResultMeta);
-    uiTraviz.appendChild(uiResize);
+    // uiTraviz.appendChild(uiResize);
     document.body.appendChild(uiTraviz);
 
     // Traverse all elements on page
@@ -370,23 +370,23 @@ function traviz(opt_property, opt_selector, computedStyle, opt_randomColors, opt
         });
     }
 
-    function doResize(e) {
-        if (e) {
-            e.preventDefault();
-        }
+    // function doResize(e) {
+    //     if (e) {
+    //         e.preventDefault();
+    //     }
 
-        interact('.resize')
-            .resizable(true)
-            .on('resizemove', function(event) {
-                var target = event.target;
+    //     interact('.resize')
+    //         .resizable(true)
+    //         .on('resizemove', function(event) {
+    //             var target = event.target;
 
-                // add the change in coords to the previous width of the target element
-                var newWidth = parseFloat(objValue = document.defaultView.getComputedStyle(target, null).getPropertyValue('width')) + event.dx,
-                    newHeight = parseFloat(objValue = document.defaultView.getComputedStyle(target, null).getPropertyValue('height')) + event.dy;
+    //             // add the change in coords to the previous width of the target element
+    //             var newWidth = parseFloat(objValue = document.defaultView.getComputedStyle(target, null).getPropertyValue('width')) + event.dx,
+    //                 newHeight = parseFloat(objValue = document.defaultView.getComputedStyle(target, null).getPropertyValue('height')) + event.dy;
 
-                // update the element's style
-                target.style.width = newWidth + 'px';
-                target.style.height = newHeight + 'px';
-            });
-    }
+    //             // update the element's style
+    //             target.style.width = newWidth + 'px';
+    //             target.style.height = newHeight + 'px';
+    //         });
+    // }
 }

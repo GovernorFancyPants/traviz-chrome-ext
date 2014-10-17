@@ -47,7 +47,6 @@ module.exports = function(grunt) {
                     sourceMap: true,
                 },
                 src: [
-                    'js/interact.js',
                     'js/traviz.js'
                 ],
                 dest: 'build/traviz.js',
@@ -70,7 +69,7 @@ module.exports = function(grunt) {
                 //sourceMapIn: 'js/build/production.js',
             },
             build: {
-                src: ['build/interact.js', 'build/traviz.js'],
+                src: ['build/traviz.js'],
                 dest: 'build/traviz.js'
             },
             extras: {

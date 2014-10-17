@@ -102,6 +102,7 @@ label {
 
 .tooltip {
     position: relative;
+    clear: both;
     &:before {
         content: attr(data-label-text);
         position: absolute;
