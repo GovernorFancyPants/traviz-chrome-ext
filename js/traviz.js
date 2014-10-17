@@ -91,14 +91,14 @@ function traviz(opt_property, opt_selector, computedStyle, opt_randomColors, opt
 
             var objValue;
 
-            obj.classList.add('resize');
+            // obj.classList.add('resize');
 
             if (oComputedStyle) { // Get specified values
 
                 // Doesn't work on cross-origin linked stylesheets or local sites
 
                 objValue = getMatchedStyle(obj, oProperty);
-                console.log(objValue);
+            // console.log(objValue);
             } else { // Else get computed values
                 objValue = document.defaultView.getComputedStyle(obj, null).getPropertyValue(oProperty);
             }
